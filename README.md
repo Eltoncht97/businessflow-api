@@ -2,6 +2,13 @@
 
 NestJS 12 API with strict TypeScript, Prisma 7, and PostgreSQL 18. The database schema is intentionally empty until the first business feature defines real entities.
 
+## Project documentation
+
+- [Project overview](docs/project-overview.md): product vision, scope, business rules, roadmap, and pending decisions (in Spanish).
+- [Agent instructions](AGENTS.md): repository conventions and verification guidance for coding agents (in Spanish).
+
+The overview describes the planned product, not the current implementation status. This README covers setup, execution, and testing.
+
 ## Requirements
 
 | Tool       | Version |
