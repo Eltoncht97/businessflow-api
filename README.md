@@ -24,7 +24,23 @@ Docker with Compose is needed for local PostgreSQL. Corepack can select the pinn
 5. Run `pnpm prisma:validate` and `pnpm prisma:generate`.
 6. Run `pnpm start:dev`.
 
-`GET http://localhost:3000/health` returns process health. It does not query PostgreSQL. Application routes use `/api/v1`. Swagger UI is available at `/api/docs` only when `NODE_ENV=development`.
+`GET http://localhost:3000/health` returns process health without querying PostgreSQL. `GET http://localhost:3000/ready` runs `SELECT 1` through Prisma and returns `200` with `{ "status": "ok" }` when PostgreSQL responds, or `503` with a generic message if the query fails or takes more than three seconds. The readiness response timeout does not cancel an in-flight database query; connection acquisition remains bounded by `DATABASE_CONNECTION_TIMEOUT_MS`. Application routes use `/api/v1`. Swagger UI is available at `/api/docs` only when `NODE_ENV=development`.
+
+### Database pool
+
+These optional environment variables are validated and converted to numbers at startup. All must be positive integers.
+
+| Variable                         | Default | Purpose                                       |
+| -------------------------------- | ------- | --------------------------------------------- |
+| `DATABASE_POOL_MAX`              | `10`    | Maximum connections per application instance  |
+| `DATABASE_CONNECTION_TIMEOUT_MS` | `5000`  | Maximum wait to acquire a connection, in ms   |
+| `DATABASE_IDLE_TIMEOUT_MS`       | `30000` | Time before closing an idle connection, in ms |
+
+The settings are passed to `PrismaPg` as `max`, `connectionTimeoutMillis`, and `idleTimeoutMillis`. Three instances with the default pool can use up to 30 connections. Reserve database capacity for migrations and other clients. Connection timeout does not limit SQL execution time.
+
+`DATABASE_URL` must use `postgres:` or `postgresql:` and include a host and database name. An explicit port must be between 1 and 65535. URL-encode special characters in credentials. Configuration errors identify invalid variable names without displaying their values.
+
+Nest shutdown hooks are enabled for process signals, so the Prisma provider disconnects during application shutdown.
 
 ## Commands
 
@@ -47,11 +63,12 @@ Start the isolated test service with `docker compose --profile test up -d db-tes
 ## Architecture
 
 - `src/config`: startup environment validation. `NODE_ENV`, `PORT`, and `DATABASE_URL` are required.
-- `src/health`: process health endpoint. It returns a fixed response without database access.
+- `src/health`: process health and database readiness endpoints.
 - `src/prisma`: Nest provider for the generated Prisma client and PostgreSQL driver adapter.
-- `src/common`: safe HTTP error response and logging. Unexpected errors are logged by class and route, without request data or database URLs.
 - `prisma`: Prisma schema and future migrations. The generated client lives in ignored `src/generated/prisma`.
-- `test`: integration and E2E tests. Jest configurations keep the test levels separate.
+- `test`: integration and E2E tests. Jest configurations keep the test levels separate. E2E tests replace Prisma with a mock to check HTTP responses without a running database.
+
+HTTP errors use Nest's standard exception handling. DTO validation rejects unknown fields, transforms payloads, and returns standard validation messages.
 
 ## Migrations
 

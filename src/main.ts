@@ -7,6 +7,7 @@ import type { Environment } from './config/environment.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableShutdownHooks();
   configureApp(app);
   const config = app.get(ConfigService<Environment, true>);
   const port = config.get('PORT', { infer: true });

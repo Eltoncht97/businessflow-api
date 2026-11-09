@@ -209,6 +209,9 @@ importers:
         specifier: 7.8.2
         version: 7.8.2
     devDependencies:
+      '@jest/globals':
+        specifier: 30.5.2
+        version: 30.5.2(supports-color@7.2.0)
       '@nestjs/cli':
         specifier: 12.0.12
         version: 12.0.12(@types/node@24.19.2)(prettier@3.9.10)
@@ -248,9 +251,6 @@ importers:
       prisma:
         specifier: 7.10.1
         version: 7.10.1(@types/node@24.19.2)(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@6.0.3)
-      source-map-support:
-        specifier: 0.5.21
-        version: 0.5.21
       supertest:
         specifier: 7.3.2
         version: 7.3.2(supports-color@7.2.0)
@@ -1694,9 +1694,6 @@ packages:
 
   bser@2.1.2:
     resolution: {integrity: sha512-V2o8YS2EhrKMO9AumnkK0ynynfFlsajpYupwq7S46H5mhcanwxDkNTw3K67wPIcKTH1ffkA4vhMOtAc7gRmPZw==}
-
-  buffer-from@1.1.2:
-    resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
 
   busboy@1.6.0:
     resolution: {integrity: sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA==}
@@ -3180,9 +3177,6 @@ packages:
   slash@3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
-
-  source-map-support@0.5.21:
-    resolution: {integrity: sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==}
 
   source-map@0.6.1:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
@@ -5092,8 +5086,6 @@ snapshots:
     dependencies:
       node-int64: 0.4.0
 
-  buffer-from@1.1.2: {}
-
   busboy@1.6.0:
     dependencies:
       streamsearch: 1.1.0
@@ -6697,11 +6689,6 @@ snapshots:
       unicode-emoji-modifier-base: 1.0.0
 
   slash@3.0.0: {}
-
-  source-map-support@0.5.21:
-    dependencies:
-      buffer-from: 1.1.2
-      source-map: 0.6.1
 
   source-map@0.6.1: {}
 
