@@ -19,7 +19,7 @@ El objetivo es desarrollar un producto empresarial real, mantenible, seguro y pr
 - Prisma ORM 7.
 - pnpm.
 - Docker Compose para PostgreSQL.
-- Jest y Supertest.
+- Vitest y Supertest.
 - Swagger / OpenAPI.
 - GitHub Actions.
 
